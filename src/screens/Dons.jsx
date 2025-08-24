@@ -16,8 +16,10 @@ const Dons = () => {
     <div>
       <h1>Tous les Dons</h1>
       <ul>
-        {dons.length ? dons.map(don => (
-          <li key={don._id}>{don.title}</li>
+        {dons.length ? dons.map((don, idx) => (
+          <a href={`/don/${don._id}`} key={idx}>
+            <li>{don.title}</li>
+          </a>
         )) : <li>Aucun don trouvé</li>}
       </ul>
     </div>
