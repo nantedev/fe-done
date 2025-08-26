@@ -1,20 +1,29 @@
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 const Show = () => {
     const { id } = useParams();
     const [don, setDon] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDon = async () => {
-            const response = await axios.get(`http://localhost:3001/don/${id}`);
+            const response = await axios.get(`http://localhost:3001/dons/${id}`);
             setDon(response.data);
         };
         fetchDon();
     }, [id]);
+
+    const onDeleteClick = () => {
+        axios.get(`http://localhost:3001/dons/${id}/delete`).then((res) => {
+            if(res.status === 200) {
+                navigate("/dons");
+            }
+        });
+    }
 
     return (
         <div>
@@ -22,11 +31,16 @@ const Show = () => {
             {don ? (
                 <div>
                     <h2>{don.title}</h2>
-                    <p>{don.description}</p>
+                    <p>{don.location}</p>
                 </div>
             ) : (
                 <p>Loading...</p>
             )}
+            <a href={`/dons/${id}/edit`}>Edit</a>
+            <br />
+            <button onClick={onDeleteClick}>Delete</button>
+            <br />
+            <a href="/dons">Retourner à la liste des dons</a>
         </div>
     )
 }
