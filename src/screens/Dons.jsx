@@ -6,7 +6,7 @@ const Dons = () => {
 
   useEffect(() => {
     const fetchDons = async () => {
-      const response = await axios.get("http://localhost:3001/dons");
+      const response = await axios.get("/dons");
       setDons(response.data);
     };
     fetchDons();
@@ -15,9 +15,12 @@ const Dons = () => {
   return (
     <div>
       <h1>Tous les Dons</h1>
+      <a href="/new">Créer un nouveau don</a>
       <ul>
-        {dons.length ? dons.map(don => (
-          <li key={don._id}>{don.title}</li>
+        {dons.length ? dons.map((don, idx) => (
+          <a href={`/dons/${don._id}`} key={idx}>
+            <li>{don.title}</li>
+          </a>
         )) : <li>Aucun don trouvé</li>}
       </ul>
     </div>
