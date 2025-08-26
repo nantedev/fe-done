@@ -11,14 +11,14 @@ const Show = () => {
 
     useEffect(() => {
         const fetchDon = async () => {
-            const response = await axios.get(`http://localhost:3001/dons/${id}`);
+            const response = await axios.get(`/dons/${id}`);
             setDon(response.data);
         };
         fetchDon();
     }, [id]);
 
     const onDeleteClick = () => {
-        axios.get(`http://localhost:3001/dons/${id}/delete`).then((res) => {
+        axios.get(`/dons/${id}/delete`).then((res) => {
             if(res.status === 200) {
                 navigate("/dons");
             }

@@ -11,7 +11,7 @@ const New = () => {
             location: e.target[1].value
         };
         await axios
-                .post("http://localhost:3001/dons/new", don)
+                .post("/dons/new", don)
                 .then((res) => {
                     navigate(`/dons/${res.data}`)
                     console.log(res.data);

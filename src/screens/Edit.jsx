@@ -9,7 +9,7 @@ const Edit = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/dons/${id}`).then((res) => {
+        axios.get(`/dons/${id}`).then((res) => {
             setDon(res.data);
         });
     });
@@ -21,7 +21,7 @@ const Edit = () => {
             location: e.target[1].value
         };
         await axios
-                .put(`http://localhost:3001/dons/${id}`, don)
+                .put(`/dons/${id}`, don)
                 .then((res) => {
                     navigate(`/dons/${res.data}`)
                     console.log(res.data);

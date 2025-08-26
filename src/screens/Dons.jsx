@@ -6,7 +6,7 @@ const Dons = () => {
 
   useEffect(() => {
     const fetchDons = async () => {
-      const response = await axios.get("http://localhost:3001/dons");
+      const response = await axios.get("/dons");
       setDons(response.data);
     };
     fetchDons();

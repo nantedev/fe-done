@@ -5,6 +5,9 @@ import Dons from './screens/Dons'
 import Show from './screens/Show'
 import New from './screens/New'
 import Edit from './screens/Edit'
+import axios from 'axios'
+
+axios.defaults.baseURL = "http://localhost:3001";
 
 function App() {
   return (
