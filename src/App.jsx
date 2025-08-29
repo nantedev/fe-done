@@ -6,6 +6,7 @@ import Show from './screens/Show'
 import New from './screens/New'
 import Edit from './screens/Edit'
 import axios from 'axios'
+import Boilerplate from './partials/Boilerplate'
 
 axios.defaults.baseURL = "http://localhost:3001";
 
@@ -14,10 +15,12 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/dons" element={<Dons />} />
-        <Route path="/dons/:id" element={<Show  />} />
-        <Route path="/dons/:id/edit" element={<Edit />} />
-        <Route path="/new" element={<New />} />
+        <Route element={<Boilerplate />}>
+          <Route path="/dons" element={<Dons />} />
+          <Route path="/dons/:id" element={<Show  />} />
+          <Route path="/dons/:id/edit" element={<Edit />} />
+          <Route path="/new" element={<New />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )
