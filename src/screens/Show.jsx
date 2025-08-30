@@ -44,7 +44,7 @@ const Show = () => {
                 <div className="card-body d-flex gap-2">
                   <a
                     className="card-link btn btn-info"
-                    href={`/don/${id}/edit`}
+                    href={`/dons/${id}/edit`}
                   >
                     Modifier
                   </a>
