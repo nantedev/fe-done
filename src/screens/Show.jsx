@@ -26,23 +26,41 @@ const Show = () => {
     }
 
     return (
-        <div>
-            <h1>Don</h1>
-            {don ? (
-                <div>
-                    <h2>{don.title}</h2>
-                    <p>{don.location}</p>
+    <>
+      {don ? (
+        <>
+          <div className="row">
+            <div className="col-6 offset-3">
+              <div className="card mb-3">
+                <img src={don.image} className="card-img-top" alt="..." />
+                <div className="card-body">
+                  <h5 className="card-title">{don.title}</h5>
+                  <p className="card-text">{don.description}</p>
                 </div>
-            ) : (
-                <p>Loading...</p>
-            )}
-            <a href={`/dons/${id}/edit`}>Edit</a>
-            <br />
-            <button onClick={onDeleteClick}>Delete</button>
-            <br />
-            <a href="/dons">Retourner à la liste des dons</a>
-        </div>
-    )
+                <ul className="list-group list-group-flush">
+                  <li className="list-group-item text-muted">{don.location}</li>
+                  <li className="list-group-item">$ {don.price} / month</li>
+                </ul>
+                <div className="card-body d-flex gap-2">
+                  <a
+                    className="card-link btn btn-info"
+                    href={`/dons/${id}/edit`}
+                  >
+                    Modifier
+                  </a>
+                  <button className="btn btn-danger" onClick={onDeleteClick}>
+                    Supprimer
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <h1>No data</h1>
+      )}
+    </>
+  );
 }
 
 export default Show;

@@ -12,19 +12,39 @@ const Dons = () => {
     fetchDons();
   }, []);
 
-  return (
-    <div>
-      <h1>Tous les Dons</h1>
-      <a href="/new">Créer un nouveau don</a>
+ return (
+    <>
       <ul>
-        {dons.length ? dons.map((don, idx) => (
-          <a href={`/dons/${don._id}`} key={idx}>
-            <li>{don.title}</li>
-          </a>
-        )) : <li>Aucun don trouvé</li>}
+        <h1>Objets disponibles</h1>
+        {dons?.length ? (
+          dons.map((don, idx) => (
+            <div className="card mb-3" key={idx}>
+              <div className="row">
+                <div className="col-md-4">
+                  <img src={don.image} className="img-fluid" />
+                </div>
+                <div className="col-md-8">
+                  <div className="card-body">
+                    <h5 className="card-title">{don.title}</h5>
+                    <p className="card-text">{don.description}</p>
+                    <p className="card-text">
+                      <small className="text-muted">{don.location}</small>
+                    </p>
+                    <a href={`/dons/${don._id}`} className="btn btn-primary">
+                      {" "}
+                      Intéressé(e) ?
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <h2>No data</h2>
+        )}
       </ul>
-    </div>
-  )
+    </>
+  );
 }
 
 export default Dons
