@@ -18,7 +18,9 @@ const Edit = () => {
         e.preventDefault();
         const don = {
             title: e.target[0].value,
-            location: e.target[1].value
+            location: e.target[1].value,
+            image: e.target[2].value,
+            description: e.target[3].value
         };
         await axios
                 .put(`/dons/${id}`, don)
@@ -31,21 +33,68 @@ const Edit = () => {
                 });
     }
     return (
-        <>
-        <h1>Editer votre don</h1>
-        <form onSubmit={onFormSubmit}>
-            <div>
-                <label htmlFor="title">titre</label>
-                <input type="text" id="title" name="title" defaultValue={don?.title}/>
+    <>
+      <div className="row">
+        <h1 className="text-center">Modifier votre don</h1>
+        <div className="col-6 offset-3">
+          <form onSubmit={onFormSubmit}>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="title">
+                Je donne
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                id="title"
+                name="title"
+                placeholder="par exemple, un canapé"
+                defaultValue={don ? don.title : ""}
+              />
             </div>
-            <div>
-                <label htmlFor="localisation">Localisation</label>
-                <textarea id="localisation" name="localisation" defaultValue={don?.location}></textarea>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="location">
+                où ?
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                id="location"
+                name="location"
+                placeholder="Par exemple, à Saint-Denis"
+                defaultValue={don ? don.location : ""}
+              />
             </div>
-            <button>Submit</button>
-            <a href="/dons">Retourner à la liste des dons</a>
-        </form>
-        </>
-    )
+            <div className="mb-3">
+              <label className="form-label" htmlFor="image">
+                Photo de l'objet
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                id="image"
+                name="image"
+                defaultValue={don ? don.image : ""}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="description">
+                Description
+              </label>
+              <textarea
+                className="form-control"
+                type="text"
+                id="description"
+                name="description"
+                defaultValue={don ? don.description : ""}
+              />
+            </div>
+            <div className="mb-3">
+              <button className="btn btn-success">Valider ?</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </>
+  );
 }
 export default Edit;
