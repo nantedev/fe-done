@@ -1,83 +1,126 @@
 import axios from "axios";
+import * as Validators from "../helpers/validators"
 import { useNavigate } from "react-router";
+import { Form, Field } from 'react-final-form'
+import ValidationDiv from "../components/ValidationDiv";
+
 
 
 const New = () => {
     const navigate = useNavigate();
-    const onFormSubmit = async (e) => {
-        e.preventDefault();
-        const don = {
-            title: e.target[0].value,
-            location: e.target[1].value,
-            image: e.target[2].value,
-            description: e.target[3].value
-        };
-        await axios
-                .post("/dons/new", don)
+    const onFormSubmit = async (values) => {
+      const don = { ...values };
+      await axios
+                .post("/dons/new", { don })
                 .then((res) => {
+                  if ((res.status === 200)) {
                     navigate(`/dons/${res.data}`)
-                    console.log(res.data);
+                  }
                 })
                 .catch((err) => {
                     console.error(err);
                 });
     }
+        
+
+
+  const NewDonForm = () => (
+    <Form
+      onSubmit={onFormSubmit}
+      render={({ handleSubmit, invalid }) => (
+        <form onSubmit={handleSubmit}>
+          <Field name="title" validate={Validators.required}>
+            {({ input, meta }) => (
+              <div className="mb-3">
+                <label className="form-label" htmlFor="title">
+                  Désignation de l'objet
+                </label>
+                <input
+                  {...input}
+                  className={`form-control ${
+                    meta.touched ? (meta.error ? "is-invalid" : "is-valid") : ""
+                  }`}
+                  type="text"
+                  id="title"
+                  name="title"
+                />
+                <ValidationDiv meta={meta} />
+              </div>
+            )}
+          </Field>
+          <Field name="location" validate={Validators.required}>
+            {({ input, meta }) => (
+              <div className="mb-3">
+                <label className="form-label" htmlFor="location">
+                  Adresse
+                </label>
+                <input
+                  {...input}
+                  className={`form-control ${
+                    meta.touched ? (meta.error ? "is-invalid" : "is-valid") : ""
+                  }`}
+                  type="text"
+                  id="location"
+                  name="location"
+                />
+                <ValidationDiv meta={meta} />
+              </div>
+            )}
+          </Field>
+          <Field name="image" validate={Validators.required}>
+            {({ input, meta }) => (
+              <div className="mb-3">
+                <label className="form-label" htmlFor="image">
+                  Image
+                </label>
+                <input
+                  {...input}
+                  className={`form-control ${
+                    meta.touched ? (meta.error ? "is-invalid" : "is-valid") : ""
+                  }`}
+                  type="text"
+                  id="image"
+                  name="image"
+                />
+                <ValidationDiv meta={meta} />
+              </div>
+            )}
+          </Field>
+          <Field name="description" validate={Validators.required}>
+            {({ input, meta }) => (
+              <div className="mb-3">
+                <label className="form-label" htmlFor="description">
+                  Description
+                </label>
+                <textarea
+                  {...input}
+                  className={`form-control ${
+                    meta.touched ? (meta.error ? "is-invalid" : "is-valid") : ""
+                  }`}
+                  type="text"
+                  id="description"
+                  name="description"
+                />
+              </div>
+            )}
+          </Field>
+          <div className="mb-3">
+            <button className="btn btn-success" disabled={invalid}>
+              Submit
+            </button>
+          </div>
+        </form>
+      )}
+    />
+  );
+
+
     return (
     <>
       <div className="row">
         <h1 className="text-center">Donnez vos objets</h1>
         <div className="col-6 offset-3">
-          <form onSubmit={onFormSubmit}>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="title">
-                Je donne
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                id="title"
-                name="title"
-                placeholder="par exemple, un canapé"
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="location">
-                où ?
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                id="location"
-                name="location"
-                placeholder="Par exemple, à Saint-Denis"
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="image">
-                Photo de l'objet
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                id="image"
-                name="image"
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="description">
-                Description
-              </label>
-              <textarea
-                className="form-control"
-                type="text"
-                id="description"
-                name="description"
-              />
-            </div>
-            <div className="mb-3">
-              <button className="btn btn-success">Donnez!</button>
-            </div>
-          </form>
+          <NewDonForm />
         </div>
       </div>
     </>
