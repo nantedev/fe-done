@@ -7,6 +7,9 @@ import New from './screens/New'
 import Edit from './screens/Edit'
 import axios from 'axios'
 import Boilerplate from './partials/Boilerplate'
+import ErrorScreen from './screens/ErrorScreen'
+
+
 
 axios.defaults.baseURL = "http://localhost:3001";
 
@@ -20,6 +23,7 @@ function App() {
           <Route path="/dons/:id" element={<Show  />} />
           <Route path="/dons/:id/edit" element={<Edit />} />
           <Route path="/new" element={<New />} />
+          <Route path="/error" element={<ErrorScreen />} />
         </Route>
       </Routes>
     </BrowserRouter>
