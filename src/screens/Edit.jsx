@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Form, Field } from "react-final-form";
 import { useNavigate, useParams } from "react-router";
+import * as Validators from "../helpers/validators";
+import ValidationDiv from "../components/ValidationDiv";
 
 
 const Edit = () => {
@@ -12,89 +15,136 @@ const Edit = () => {
         axios.get(`/dons/${id}`).then((res) => {
             setDon(res.data);
         });
-    });
+    }, [id]);
 
-    const onFormSubmit = async (e) => {
-        e.preventDefault();
-        const don = {
-            title: e.target[0].value,
-            location: e.target[1].value,
-            image: e.target[2].value,
-            description: e.target[3].value
-        };
+    const onFormSubmit = async (values) => {
+        const don = { ...values };
         await axios
-                .put(`/dons/${id}`, don)
+                .put(`/dons/${id}`, { don })
                 .then((res) => {
-                    navigate(`/dons/${res.data}`)
-                    console.log(res.data);
-                })
+                    navigate(`/dons/${res.data}`)                })
                 .catch((err) => {
                     console.error(err);
                 });
     }
-    return (
+      const EditDonForm = () => (
+    <Form
+      onSubmit={onFormSubmit}
+      render={({ handleSubmit, invalid, pristine }) => (
+        <form onSubmit={handleSubmit}>
+          <Field
+            name="title"
+            validate={Validators.required}
+            initialValue={don.title}
+          >
+            {({ input, meta }) => (
+              <div className="mb-3">
+                <label className="form-label" htmlFor="title">
+                  Title
+                </label>
+                <input
+                  {...input}
+                  className={`form-control ${
+                    meta.touched ? (meta.error ? "is-invalid" : "is-valid") : ""
+                  }`}
+                  type="text"
+                  id="title"
+                  name="title"
+                />
+                <ValidationDiv meta={meta} />
+              </div>
+            )}
+          </Field>
+          <Field
+            name="location"
+            validate={Validators.required}
+            initialValue={don.location}
+          >
+            {({ input, meta }) => (
+              <div className="mb-3">
+                <label className="form-label" htmlFor="location">
+                  Location
+                </label>
+                <input
+                  {...input}
+                  className={`form-control ${
+                    meta.touched ? (meta.error ? "is-invalid" : "is-valid") : ""
+                  }`}
+                  type="text"
+                  id="location"
+                  name="location"
+                />
+                <ValidationDiv meta={meta} />
+              </div>
+            )}
+          </Field>
+          <Field
+            name="image"
+            validate={Validators.required}
+            initialValue={don.image}
+          >
+            {({ input, meta }) => (
+              <div className="mb-3">
+                <label className="form-label" htmlFor="image">
+                  Image
+                </label>
+                <input
+                  {...input}
+                  className={`form-control ${
+                    meta.touched ? (meta.error ? "is-invalid" : "is-valid") : ""
+                  }`}
+                  type="text"
+                  id="image"
+                  name="image"
+                />
+                <ValidationDiv meta={meta} />
+              </div>
+            )}
+          </Field>
+          <Field
+            name="description"
+            validate={Validators.required}
+            initialValue={don.description}
+          >
+            {({ input, meta }) => (
+              <div className="mb-3">
+                <label className="form-label" htmlFor="description">
+                  Description
+                </label>
+                <textarea
+                  {...input}
+                  className={`form-control ${
+                    meta.touched ? (meta.error ? "is-invalid" : "is-valid") : ""
+                  }`}
+                  type="text"
+                  id="description"
+                  name="description"
+                />
+              </div>
+            )}
+          </Field>
+          <div className="mb-3">
+            <button className="btn btn-success" disabled={invalid || pristine}>
+              Submit
+            </button>
+          </div>
+        </form>
+      )}
+    />
+  );
+
+  return (
     <>
-      <div className="row">
-        <h1 className="text-center">Modifier votre don</h1>
-        <div className="col-6 offset-3">
-          <form onSubmit={onFormSubmit}>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="title">
-                Je donne
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                id="title"
-                name="title"
-                placeholder="par exemple, un canapé"
-                defaultValue={don ? don.title : ""}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="location">
-                où ?
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                id="location"
-                name="location"
-                placeholder="Par exemple, à Saint-Denis"
-                defaultValue={don ? don.location : ""}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="image">
-                Photo de l'objet
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                id="image"
-                name="image"
-                defaultValue={don ? don.image : ""}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="description">
-                Description
-              </label>
-              <textarea
-                className="form-control"
-                type="text"
-                id="description"
-                name="description"
-                defaultValue={don ? don.description : ""}
-              />
-            </div>
-            <div className="mb-3">
-              <button className="btn btn-success">Valider ?</button>
-            </div>
-          </form>
+      {don ? (
+        <div className="row">
+          <h1 className="text-center">Edit don</h1>
+          <div className="col-6 offset-3">
+            <EditDonForm />
+          </div>
         </div>
-      </div>
+      ) : null}
     </>
   );
-}
+};
+
 export default Edit;
